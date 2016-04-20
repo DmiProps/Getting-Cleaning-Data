@@ -86,17 +86,13 @@ rm(measurement_test)
 rm(measurement_train)
 rm(activity_labels)
 
-## 3. Reshaping data
 variable_names <- subset(variable_names, subset = select_variables)
-
-measurement <- melt(measurement, id=c("subject", "activity"), measure.vars=variable_names[, "col_names"])
-
-rm(variable_names)
 rm(select_variables)
 
-## 4. Creating a second, independent tidy data set with the average of each variable
+## 3. Creating a second, independent tidy data set with the average of each variable
 ## for each activity and each subject.
-measurement_second <- summarize(group_by(measurement, subject, activity, variable), mean(value))
+measurement_second <- melt(measurement, id=c("subject", "activity"), measure.vars=variable_names[, "col_names"])
+measurement_second <- dcast(measurement_second, subject + activity ~ variable, mean)
 
-## 5. Writing tidy data.
-write.table(measurement_second, "measurement_second.txt", row.names = F)
+## 4. Writing tidy data.
+write.table(measurement_second, "measurement_second.csv", row.name = F, sep = ",")
