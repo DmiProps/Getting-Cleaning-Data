@@ -1,4 +1,4 @@
-# GettingCleaningData
+# Getting-Cleaning-Data
 Getting and Cleaning Data
 
 * Step 1. Reading raw data from all files using read.table()
